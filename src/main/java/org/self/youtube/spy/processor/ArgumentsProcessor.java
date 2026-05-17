@@ -22,7 +22,7 @@ public interface ArgumentsProcessor {
                 Config.Configuration.KEY.name()),
         CHANNEL_ID (
                 "c",
-                "channelId",
+                "channel-id",
                 false,
                 true,
                 "The ID from the channel to search for videos",

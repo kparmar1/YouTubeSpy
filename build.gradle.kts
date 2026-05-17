@@ -1,5 +1,6 @@
 plugins {
     id("java")
+    id("application")
 }
 
 group = "org.example"
@@ -19,6 +20,25 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+application {
+    mainClass.set("org.self.youtube.spy.YouTubeSpy")
+}
+
 tasks.test {
     useJUnitPlatform()
+}
+
+val runtimeClasspath = configurations.named<Configuration>("runtimeClasspath")
+
+tasks.register<Jar>("fatJar") {
+    archiveFileName.set("YouTubeSpy.jar")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes(
+            "Main-Class" to "org.self.youtube.spy.YouTubeSpy"
+        )
+    }
+    from(runtimeClasspath.map { it.map { zipTree(it) } })
+    from(sourceSets.main.get().output)
+    exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
 }
