@@ -59,7 +59,15 @@ public interface ArgumentsProcessor {
                 false,
                 "Output to the terminal",
                 "B",
-                "terminal");
+                "terminal"),
+        WEBSITE_LOCATION (
+                "wl",
+                "website-location",
+                false,
+                true,
+                "The output location for the website (default: /tmp/index.html)",
+                "",
+                Config.Configuration.WEBSITE_LOCATION.name());
 
         private final String shortName;
         private final String longName;

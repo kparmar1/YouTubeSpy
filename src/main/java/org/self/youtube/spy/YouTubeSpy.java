@@ -23,7 +23,7 @@ public class YouTubeSpy {
 
     private static final String VELOCITY_TEMPLATE = "templates/index.vm";
 
-    private static final String WEBSITE_OUTPUT = "/tmp/index.html";
+    private static final String DEFAULT_WEBSITE_OUTPUT = "/tmp/index.html";
     private static Config config;
 
     private YouTubeService youTubeService;
@@ -58,6 +58,13 @@ public class YouTubeSpy {
             lines = stream.toList();
         }
         return lines;
+    }
+
+    private String getWebsiteOutputPath() {
+        if (config.hasConfiguration(Config.Configuration.WEBSITE_LOCATION)) {
+            return config.getConfiguation(Config.Configuration.WEBSITE_LOCATION);
+        }
+        return DEFAULT_WEBSITE_OUTPUT;
     }
 
     public void execute() throws Exception {
@@ -117,7 +124,7 @@ public class YouTubeSpy {
         template.merge(context, writer);
 
         try {
-            Files.writeString(Paths.get(WEBSITE_OUTPUT), writer.toString(), StandardCharsets.UTF_8);
+            Files.writeString(Paths.get(getWebsiteOutputPath()), writer.toString(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,7 +133,7 @@ public class YouTubeSpy {
     }
 
     private void openWebsite() throws Exception {
-        File file = new File(WEBSITE_OUTPUT);
+        File file = new File(getWebsiteOutputPath());
         try {
             Desktop desktop = Desktop.getDesktop();
             if (desktop.isSupported(Desktop.Action.BROWSE)) {

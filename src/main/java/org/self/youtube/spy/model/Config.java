@@ -9,7 +9,8 @@ public class Config {
         CHANNEL ("channel"),
         FILE ("file"),
         WEBSITE ("website"),
-        TERMINAL ("terminal");
+        TERMINAL ("terminal"),
+        WEBSITE_LOCATION ("website-location");
 
         final String name;
         Configuration(String name) {
