@@ -133,7 +133,7 @@ public interface ArgumentsProcessor {
         }
     }
 
-    boolean hasArguments(ApacheCommonsArgumentsProcessor.ARGUMENT argument);
+    boolean hasArgument(ApacheCommonsArgumentsProcessor.ARGUMENT argument);
     String getArgumentValue(ApacheCommonsArgumentsProcessor.ARGUMENT argument);
     Config getConfig(String[] arguments) throws ConfigurationException;
 }

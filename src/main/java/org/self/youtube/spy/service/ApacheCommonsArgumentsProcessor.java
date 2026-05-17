@@ -71,7 +71,7 @@ public class ApacheCommonsArgumentsProcessor implements ArgumentsProcessor {
     }
 
     @Override
-    public boolean hasArguments(ARGUMENT argument) {
+    public boolean hasArgument(ARGUMENT argument) {
         return cmd.hasOption(argument.getShortName());
     }
 
