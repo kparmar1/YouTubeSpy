@@ -34,7 +34,7 @@ java -jar build/libs/YouTubeSpy.jar -k <API_KEY> -f /path/to/channelids.txt -t
 | Flag | Long Form | Required | Description |
 |------|-----------|----------|-------------|
 | `-k` | `--api-key` | Yes | Google API key |
-| `-c` | `--channelId` | No* | Single channel ID to search |
+| `-c` | `--channel-id` | No* | Single channel ID to search |
 | `-f` | `--file` | No* | Path to file with channel IDs (one per line) |
 | `-w` | `--website` | No | Generate HTML output (default) |
 | `-t` | `--terminal` | No | Output to terminal instead of website |
