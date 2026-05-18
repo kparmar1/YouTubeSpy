@@ -78,10 +78,4 @@ public class ApacheCommonsArgumentsProcessor implements ArgumentsProcessor {
     public String getArgumentValue(ARGUMENT argument) {
         return cmd.getOptionValue(argument.getShortName());
     }
-
-    public static void main(String[] args) throws Exception {
-        ArgumentsProcessor argumentsProcessor = new ApacheCommonsArgumentsProcessor();
-        Config config = argumentsProcessor.getConfig(new String[]{"-c", "dfdf", "-k", "fdsf"});
-        System.out.println(config.toString());
-    }
 }
