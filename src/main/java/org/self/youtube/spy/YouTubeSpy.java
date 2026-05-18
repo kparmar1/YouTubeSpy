@@ -111,10 +111,16 @@ public class YouTubeSpy {
     }
 
     public void execute() throws Exception {
-        if (config.hasConfiguration(Config.Configuration.TERMINAL)) {
-            printVideos();
-        } else {
-            createWebsite();
+        try {
+            if (config.hasConfiguration(Config.Configuration.TERMINAL)) {
+                printVideos();
+            } else {
+                createWebsite();
+            }
+        } catch (Exception e) {
+            System.err.println("Error: " + e.getMessage());
+            System.err.println("Tip: Use -r to force refresh, or check your API quota.");
+            System.exit(1);
         }
     }
 
@@ -143,11 +149,7 @@ public class YouTubeSpy {
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
 
-        try {
-            Files.writeString(Paths.get(getWebsiteOutputPath()), writer.toString(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Files.writeString(Paths.get(getWebsiteOutputPath()), writer.toString(), StandardCharsets.UTF_8);
 
         openWebsite();
     }
@@ -157,22 +159,36 @@ public class YouTubeSpy {
 
         for (String channelId : channelIds) {
             List<Video> videos = getVideosForChannel(channelId, maxResults);
-            allVideos.addAll(videos);
+            if (videos != null) {
+                allVideos.addAll(videos);
+            }
         }
 
         return allVideos;
     }
 
     private List<Video> getVideosForChannel(String channelId, long maxResults) throws Exception {
-        if (!shouldRefresh() && cache.isCacheFresh(channelId)) {
-            return cache.getCachedVideos(channelId);
+        try {
+            if (!shouldRefresh() && cache.isCacheFresh(channelId)) {
+                System.out.println("Using cached data for " + channelId);
+                return cache.getCachedVideos(channelId);
+            }
+
+            List<Video> videos = youTubeService.doVideoSearch(channelId, maxResults);
+            cache.updateChannel(channelId, videos);
+            cache.save();
+            return videos;
+        } catch (Exception e) {
+            System.err.println("API error for channel " + channelId + ": " + e.getMessage());
+
+            if (cache.hasCachedData(channelId)) {
+                System.out.println("Falling back to cached data for " + channelId);
+                return cache.getCachedVideos(channelId);
+            }
+
+            System.err.println("No cached data available for " + channelId);
+            return null;
         }
-
-        List<Video> videos = youTubeService.doVideoSearch(channelId, maxResults);
-        cache.updateChannel(channelId, videos);
-        cache.save();
-
-        return videos;
     }
 
     private void openWebsite() throws Exception {
