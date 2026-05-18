@@ -41,9 +41,9 @@ java -jar build/libs/YouTubeSpy.jar -k <API_KEY> -f /path/to/channelids.txt -t
 | `-wl` | `--website-location` | No | Output path for website (default: /tmp/index.html) |
 | `-m` | `--max-videos` | No | Maximum videos per channel (default: 5) |
 | `-r` | `--refresh` | No | Force refresh (ignore cache) |
-| `--cache-location` | | No | Custom cache file path |
-| `--cache-ttl` | | No | Cache lifetime in minutes (default: 30) |
-| `--clear-cache` | | No | Delete cache and exit |
+| `-cl` | `--cache-location` | No | Custom cache file path |
+| `-ct` | `--cache-ttl` | No | Cache lifetime in minutes (default: 30) |
+| `-cc` | `--clear-cache` | No | Delete cache and exit |
 | `-t` | `--terminal` | No | Output to terminal instead of website |
 | `-h` | `--help` | No | Show help message |
 
