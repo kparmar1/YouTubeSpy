@@ -24,7 +24,7 @@ public class YouTubeSpy {
 
     private static final String VELOCITY_TEMPLATE = "templates/index.vm";
 
-    private static final String DEFAULT_WEBSITE_OUTPUT = "/tmp/index.html";
+    private static final String DEFAULT_WEBSITE_OUTPUT = System.getProperty("user.home") + "/.youtubespy/index.html";
     private static Config config;
 
     private YouTubeService youTubeService;

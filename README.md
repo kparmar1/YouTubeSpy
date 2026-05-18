@@ -38,7 +38,7 @@ java -jar build/libs/YouTubeSpy.jar -k <API_KEY> -f /path/to/channelids.txt -t
 | `-c` | `--channel-id` | No* | Single channel ID to search |
 | `-f` | `--file` | No* | Path to file with channel IDs (one per line) |
 | `-w` | `--website` | No | Generate HTML output (default) |
-| `-wl` | `--website-location` | No | Output path for website (default: /tmp/index.html) |
+| `-wl` | `--website-location` | No | Output path for website (default: ~/.youtubespy/index.html) |
 | `-m` | `--max-videos` | No | Maximum videos per channel (default: 5) |
 | `-r` | `--refresh` | No | Force refresh (ignore cache) |
 | `-cl` | `--cache-location` | No | Custom cache file path |
