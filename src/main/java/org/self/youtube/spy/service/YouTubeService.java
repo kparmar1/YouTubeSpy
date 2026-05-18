@@ -24,13 +24,7 @@ public class YouTubeService {
     public List<Video> doVideoSearch(List<String> channelIds, long maxResults) throws Exception {
         List<Video> videos = new ArrayList<>();
         for (String channelId : channelIds) {
-            try {
-                videos.addAll(doVideoSearch(channelId, maxResults));
-            } catch (Exception e) {
-                System.out.println("Error looking up channelId: " + channelId);
-                e.printStackTrace();
-                throw e;
-            }
+            videos.addAll(doVideoSearch(channelId, maxResults));
         }
         return videos;
     }
