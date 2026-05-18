@@ -176,6 +176,11 @@ public class YouTubeSpy {
     }
 
     private void openWebsite() throws Exception {
+        if (isRunningInContainer()) {
+            System.out.println("Running in Docker - open " + getWebsiteOutputPath() + " manually in your browser");
+            return;
+        }
+
         File file = new File(getWebsiteOutputPath());
         try {
             Desktop desktop = Desktop.getDesktop();
@@ -184,6 +189,18 @@ public class YouTubeSpy {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private boolean isRunningInContainer() {
+        if (Files.exists(Paths.get("/.dockerenv"))) {
+            return true;
+        }
+        try {
+            String cgroup = Files.readString(Paths.get("/proc/1/cgroup"));
+            return cgroup.contains("docker") || cgroup.contains("containerd");
+        } catch (Exception e) {
+            return false;
         }
     }
 

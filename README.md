@@ -9,6 +9,7 @@ A Java application that fetches recent videos from YouTube channels and displays
 - Output results to terminal
 - Support for reading channel IDs from a file
 - Local caching to reduce API calls
+- Docker support (no build tools required)
 
 ## Prerequisites
 
@@ -17,18 +18,43 @@ A Java application that fetches recent videos from YouTube channels and displays
 
 ## Build
 
+### Native Build
 ```bash
 ./gradlew fatJar
 ```
 
 The runnable JAR will be created at `build/libs/YouTubeSpy.jar`.
 
+### Docker
+```bash
+docker build -t youtubespy .
+```
+
 ## Usage
 
+### Native
 ```bash
 java -jar build/libs/YouTubeSpy.jar -k <API_KEY> -c <CHANNEL_ID> -w
 java -jar build/libs/YouTubeSpy.jar -k <API_KEY> -f /path/to/channelids.txt -t
 ```
+
+### Docker
+```bash
+docker run -v ~/.youtubespy:/root/.youtubespy youtubespy -k <API_KEY> -c <CHANNEL_ID> -w
+./run.sh -k <API_KEY> -c <CHANNEL_ID> -w
+```
+
+**Important:** The `-v ~/.youtubespy:/root/.youtubespy` volume mount is required for:
+- **Cache persistence** - Without it, cache is reset on each run
+- **HTML output** - Without it, `~/.youtubespy/index.html` is not accessible from host
+
+For local files with Docker, mount them to `/data`:
+```bash
+docker run -v ~/.youtubespy:/root/.youtubespy -v /path/to/channels.txt:/app/channels.txt youtubespy -k <API_KEY> -f /app/channels.txt -t
+./run.sh -k <API_KEY> -f /data/channels.txt -t
+```
+
+**Note:** When using Docker, the website HTML is saved to `~/.youtubespy/index.html`. Open it manually in your browser.
 
 ### Options
 
