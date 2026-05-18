@@ -10,7 +10,8 @@ public class Config {
         FILE ("file"),
         WEBSITE ("website"),
         TERMINAL ("terminal"),
-        WEBSITE_LOCATION ("website-location");
+        WEBSITE_LOCATION ("website-location"),
+        MAX_VIDEOS ("max-videos");
 
         final String name;
         Configuration(String name) {
@@ -40,12 +41,12 @@ public class Config {
         return Configuration.values();
     }
 
-    public String getConfiguation(Configuration configuration) {
+    public String getConfiguration(Configuration configuration) {
         return configurations.get(configuration);
     }
 
-    public boolean hasConfiguationValue(Configuration configuration) {
-        return (hasConfiguration(configuration) && (getConfiguation(configuration) != null));
+    public boolean hasConfigurationValue(Configuration configuration) {
+        return (hasConfiguration(configuration) && (getConfiguration(configuration) != null));
     }
 
     public boolean hasConfiguration(Configuration configuration) {

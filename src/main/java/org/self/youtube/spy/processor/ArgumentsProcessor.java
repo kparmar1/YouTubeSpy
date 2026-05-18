@@ -67,7 +67,15 @@ public interface ArgumentsProcessor {
                 true,
                 "The output location for the website (default: /tmp/index.html)",
                 "",
-                Config.Configuration.WEBSITE_LOCATION.name());
+                Config.Configuration.WEBSITE_LOCATION.name()),
+        MAX_VIDEOS (
+                "m",
+                "max-videos",
+                false,
+                true,
+                "Maximum number of videos to fetch per channel (default: 5)",
+                "",
+                Config.Configuration.MAX_VIDEOS.name());
 
         private final String shortName;
         private final String longName;

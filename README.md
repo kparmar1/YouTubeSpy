@@ -38,6 +38,7 @@ java -jar build/libs/YouTubeSpy.jar -k <API_KEY> -f /path/to/channelids.txt -t
 | `-f` | `--file` | No* | Path to file with channel IDs (one per line) |
 | `-w` | `--website` | No | Generate HTML output (default) |
 | `-wl` | `--website-location` | No | Output path for website (default: /tmp/index.html) |
+| `-m` | `--max-videos` | No | Maximum videos per channel (default: 5) |
 | `-t` | `--terminal` | No | Output to terminal instead of website |
 | `-h` | `--help` | No | Show help message |
 
@@ -48,6 +49,11 @@ java -jar build/libs/YouTubeSpy.jar -k <API_KEY> -f /path/to/channelids.txt -t
 Search a single channel and display in browser:
 ```bash
 java -jar YouTubeSpy.jar -k YOUR_API_KEY -c UC_x5XG1OV2P6uZZ5FSM9Ttw -w
+```
+
+Search with custom video limit:
+```bash
+java -jar YouTubeSpy.jar -k YOUR_API_KEY -c CHANNEL_ID -w -m 10
 ```
 
 Search multiple channels from a file and output to terminal:

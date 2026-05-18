@@ -36,7 +36,7 @@ public class YouTubeSpy {
             System.exit(1);
         }
         try {
-            youTubeService = new YouTubeService("YouTube Spy", config.getConfiguation(Config.Configuration.KEY));
+            youTubeService = new YouTubeService("YouTube Spy", config.getConfiguration(Config.Configuration.KEY));
         } catch (Exception e) {
             System.exit(2);
         }
@@ -45,9 +45,9 @@ public class YouTubeSpy {
     private List<String> getChannelIds() throws Exception {
         List<String> channelIds = new ArrayList<>();
         if (config.hasConfiguration(Config.Configuration.FILE)) {
-            channelIds.addAll(getChannelIdsFromFile(config.getConfiguation(Config.Configuration.FILE)));
+            channelIds.addAll(getChannelIdsFromFile(config.getConfiguration(Config.Configuration.FILE)));
         } else {
-            channelIds.add(config.getConfiguation(Config.Configuration.CHANNEL));
+            channelIds.add(config.getConfiguration(Config.Configuration.CHANNEL));
         }
         return channelIds;
     }
@@ -62,9 +62,16 @@ public class YouTubeSpy {
 
     private String getWebsiteOutputPath() {
         if (config.hasConfiguration(Config.Configuration.WEBSITE_LOCATION)) {
-            return config.getConfiguation(Config.Configuration.WEBSITE_LOCATION);
+            return config.getConfiguration(Config.Configuration.WEBSITE_LOCATION);
         }
         return DEFAULT_WEBSITE_OUTPUT;
+    }
+
+    private long getMaxVideos() {
+        if (config.hasConfigurationValue(Config.Configuration.MAX_VIDEOS)) {
+            return Long.parseLong(config.getConfiguration(Config.Configuration.MAX_VIDEOS));
+        }
+        return 5;
     }
 
     public void execute() throws Exception {
@@ -76,7 +83,7 @@ public class YouTubeSpy {
     }
 
     public void printVideos() throws Exception {
-        List<Video> videos = youTubeService.doVideoSearch(getChannelIds(), 5);
+        List<Video> videos = youTubeService.doVideoSearch(getChannelIds(), getMaxVideos());
         /*List<Video> videos = new ArrayList<>();
         Video video1 = Video.VideoBuilder.aVideo()
                 .withChannelId("7DoQPpKNN-c")
@@ -106,7 +113,7 @@ public class YouTubeSpy {
         Template template = velocityEngine.getTemplate(VELOCITY_TEMPLATE);
         VelocityContext context = new VelocityContext();
 
-        List<Video> videos = youTubeService.doVideoSearch(getChannelIds(), 5);
+        List<Video> videos = youTubeService.doVideoSearch(getChannelIds(), getMaxVideos());
         /*List<Video> videos = new ArrayList<>();
         Video video = Video.VideoBuilder.aVideo()
                 .withChannelId("1")
