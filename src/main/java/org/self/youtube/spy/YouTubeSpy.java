@@ -6,7 +6,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.self.youtube.spy.model.Cache;
 import org.self.youtube.spy.model.Config;
 import org.self.youtube.spy.model.Video;
-import org.self.youtube.spy.service.ApacheCommonsArgumentsProcessor;
+import org.self.youtube.spy.processor.ApacheCommonsArgumentsProcessor;
 import org.self.youtube.spy.processor.ArgumentsProcessor;
 import org.self.youtube.spy.service.YouTubeService;
 

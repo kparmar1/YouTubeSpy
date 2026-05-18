@@ -1,10 +1,9 @@
-package org.self.youtube.spy.service;
+package org.self.youtube.spy.processor;
 
 import org.apache.commons.cli.*;
 import org.apache.commons.cli.help.HelpFormatter;
 import org.self.youtube.spy.exception.ConfigurationException;
 import org.self.youtube.spy.model.Config;
-import org.self.youtube.spy.processor.ArgumentsProcessor;
 
 import java.util.*;
 

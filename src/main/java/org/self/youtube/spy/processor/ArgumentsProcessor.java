@@ -2,7 +2,6 @@ package org.self.youtube.spy.processor;
 
 import org.self.youtube.spy.exception.ConfigurationException;
 import org.self.youtube.spy.model.Config;
-import org.self.youtube.spy.service.ApacheCommonsArgumentsProcessor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
