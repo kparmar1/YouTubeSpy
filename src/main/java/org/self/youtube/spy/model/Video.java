@@ -7,22 +7,7 @@ import java.time.format.DateTimeFormatter;
 public record Video(String channelId, String channelTitle, String id, String title, String description,
                     String thumbnailUrl, Long thumbnailWidth, Long thumbnailHeight, Instant publishedAt,
                     Instant publishedTime) {
-    /*@Override
-    public String toString() {
-        return "Video{" +
-                "channelId='" + channelId + '\'' +
-                ", channelTitle='" + channelTitle + '\'' +
-                ", id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", thumbnailUrl='" + thumbnailUrl + '\'' +
-                ", thumbnailWidth=" + thumbnailWidth +
-                ", thumbnailHeight=" + thumbnailHeight +
-                ", publishedAt=" + publishedAt +
-                ", publishedTime=" + publishedTime +
-                '}';
-    }*/
-
+    
     public Long getPublishedAtInEpochMilli() {
         return publishedAt.toEpochMilli();
     }
