@@ -89,6 +89,23 @@ java -jar YouTubeSpy.jar --clear-cache -k YOUR_API_KEY
 4. Go to "Credentials" and create an API key
 5. (Optional) Set up quota to avoid running out of API credits
 
+## Finding a Channel ID
+
+The channel ID is a unique identifier (e.g., `UC_x5XG1OV2P6uZZ5FSM9Ttw`). Here are ways to find it:
+
+**Method 1: View page source (recommended)**
+1. Open any video from the channel in your browser
+2. Right-click → "View Page Source"
+3. Search for `channelId` (include the quotes)
+4. Copy the ID value (e.g., `UC_x5XG1OV2P6uZZ5FSM9Ttw`)
+
+**Method 2: Check the video URL**
+- Some video URLs contain the channel ID: `youtube.com/channel/UC_x5XG1OV2P6uZZ5FSM9Ttw`
+- For channels with custom URLs (handles), check `youtube.com/@username` → "View page source" → search for `channelId`
+
+**Method 3: Online lookup tools**
+- Search "YouTube channel ID lookup" for third-party tools that can find the ID from a channel name or URL
+
 ## Output
 
 - **Website mode**: Opens `index.html` in your default browser with filterable video cards
