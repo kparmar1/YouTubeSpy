@@ -40,13 +40,17 @@ java -jar build/libs/YouTubeSpy.jar -k <API_KEY> -f /path/to/channelids.txt -t
 
 ### Docker
 ```bash
-docker run youtubespy -k <API_KEY> -c <CHANNEL_ID> -w
+docker run -v ~/.youtubespy:/root/.youtubespy youtubespy -k <API_KEY> -c <CHANNEL_ID> -w
 ./run.sh -k <API_KEY> -c <CHANNEL_ID> -w
 ```
 
+**Important:** The `-v ~/.youtubespy:/root/.youtubespy` volume mount is required for:
+- **Cache persistence** - Without it, cache is reset on each run
+- **HTML output** - Without it, `~/.youtubespy/index.html` is not accessible from host
+
 For local files with Docker, mount them to `/data`:
 ```bash
-docker run -v /path/to/channels.txt:/app/channels.txt youtubespy -k <API_KEY> -f /app/channels.txt -t
+docker run -v ~/.youtubespy:/root/.youtubespy -v /path/to/channels.txt:/app/channels.txt youtubespy -k <API_KEY> -f /app/channels.txt -t
 ./run.sh -k <API_KEY> -f /data/channels.txt -t
 ```
 
