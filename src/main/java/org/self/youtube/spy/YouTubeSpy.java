@@ -3,6 +3,7 @@ package org.self.youtube.spy;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.self.youtube.spy.model.Cache;
 import org.self.youtube.spy.model.Config;
 import org.self.youtube.spy.model.Video;
 import org.self.youtube.spy.service.ApacheCommonsArgumentsProcessor;
@@ -27,6 +28,7 @@ public class YouTubeSpy {
     private static Config config;
 
     private YouTubeService youTubeService;
+    private Cache cache;
 
     public YouTubeSpy(String[] arguments) {
         try {
@@ -35,11 +37,40 @@ public class YouTubeSpy {
         } catch (Exception e) {
             System.exit(1);
         }
+
+        if (config.hasConfiguration(Config.Configuration.CLEAR_CACHE)) {
+            try {
+                Cache clearCache = createCache();
+                clearCache.clear();
+                System.out.println("Cache cleared successfully.");
+                System.exit(0);
+            } catch (IOException e) {
+                System.out.println("Failed to clear cache: " + e.getMessage());
+                System.exit(1);
+            }
+        }
+
         try {
             youTubeService = new YouTubeService("YouTube Spy", config.getConfiguration(Config.Configuration.KEY));
+            cache = createCache();
+            cache.load();
         } catch (Exception e) {
             System.exit(2);
         }
+    }
+
+    private Cache createCache() {
+        String cacheLocation = null;
+        long ttlMinutes = 30;
+
+        if (config.hasConfigurationValue(Config.Configuration.CACHE_LOCATION)) {
+            cacheLocation = config.getConfiguration(Config.Configuration.CACHE_LOCATION);
+        }
+        if (config.hasConfigurationValue(Config.Configuration.CACHE_TTL)) {
+            ttlMinutes = Long.parseLong(config.getConfiguration(Config.Configuration.CACHE_TTL));
+        }
+
+        return new Cache(cacheLocation, ttlMinutes);
     }
 
     private List<String> getChannelIds() throws Exception {
@@ -74,6 +105,10 @@ public class YouTubeSpy {
         return 5;
     }
 
+    private boolean shouldRefresh() {
+        return config.hasConfiguration(Config.Configuration.REFRESH);
+    }
+
     public void execute() throws Exception {
         if (config.hasConfiguration(Config.Configuration.TERMINAL)) {
             printVideos();
@@ -83,18 +118,7 @@ public class YouTubeSpy {
     }
 
     public void printVideos() throws Exception {
-        List<Video> videos = youTubeService.doVideoSearch(getChannelIds(), getMaxVideos());
-        /*List<Video> videos = new ArrayList<>();
-        Video video1 = Video.VideoBuilder.aVideo()
-                .withChannelId("7DoQPpKNN-c")
-                .withId("1")
-                .withThumbnailUrl("https://picsum.photos/240/135?random=1")
-                .withTitle("Introduction to Web Development")
-                .withChannelTitle("Code Academy")
-                .withPublishedAt(Instant.now())
-                .withPublishedTime(Instant.now())
-                .build();
-        videos.add(video1);*/
+        List<Video> videos = getVideos(getChannelIds(), getMaxVideos());
         for (Video video : videos) {
             System.out.println(video);
         }
@@ -109,24 +133,12 @@ public class YouTubeSpy {
                 "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         velocityEngine.init(props);
 
-        // Get template and create context
         Template template = velocityEngine.getTemplate(VELOCITY_TEMPLATE);
         VelocityContext context = new VelocityContext();
 
-        List<Video> videos = youTubeService.doVideoSearch(getChannelIds(), getMaxVideos());
-        /*List<Video> videos = new ArrayList<>();
-        Video video = Video.VideoBuilder.aVideo()
-                .withChannelId("1")
-                .withId("7DoQPpKNN-c")
-                .withThumbnailUrl("https://picsum.photos/240/135?random=1")
-                .withTitle("Introduction to Web Development")
-                .withChannelTitle("Code Academy")
-                .withPublishedAt(Instant.now())
-                .build();
-        videos.add(video);*/
+        List<Video> videos = getVideos(getChannelIds(), getMaxVideos());
         context.put("videos", videos);
 
-        // Merge and output
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
 
@@ -137,6 +149,29 @@ public class YouTubeSpy {
         }
 
         openWebsite();
+    }
+
+    private List<Video> getVideos(List<String> channelIds, long maxResults) throws Exception {
+        List<Video> allVideos = new ArrayList<>();
+
+        for (String channelId : channelIds) {
+            List<Video> videos = getVideosForChannel(channelId, maxResults);
+            allVideos.addAll(videos);
+        }
+
+        return allVideos;
+    }
+
+    private List<Video> getVideosForChannel(String channelId, long maxResults) throws Exception {
+        if (!shouldRefresh() && cache.isCacheFresh(channelId)) {
+            return cache.getCachedVideos(channelId);
+        }
+
+        List<Video> videos = youTubeService.doVideoSearch(channelId, maxResults);
+        cache.updateChannel(channelId, videos);
+        cache.save();
+
+        return videos;
     }
 
     private void openWebsite() throws Exception {
@@ -152,16 +187,7 @@ public class YouTubeSpy {
     }
 
     public static void main(String[] args) throws Exception {
-        /*YouTubeSpy youTubeSpy = new YouTubeSpy(
-                new String[]{
-                        "-k","AIzaSyB_qRAOwp5zW7XMBjuDYehA_ZGSR_DmP0A",
-                        //"-c", "UCZHhLyDll3hYHC0pyjbWFJA",
-                        //"-t",
-                        "-w",
-                        "-f", "/tmp/channelids"
-                });*/
         YouTubeSpy youTubeSpy = new YouTubeSpy(args);
         youTubeSpy.execute();
-        //youTubeSpy.getSubs();
     }
 }

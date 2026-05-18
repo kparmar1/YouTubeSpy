@@ -8,6 +8,7 @@ A Java application that fetches recent videos from YouTube channels and displays
 - Output results to a web browser with filtering/sorting
 - Output results to terminal
 - Support for reading channel IDs from a file
+- Local caching to reduce API calls
 
 ## Prerequisites
 
@@ -39,6 +40,10 @@ java -jar build/libs/YouTubeSpy.jar -k <API_KEY> -f /path/to/channelids.txt -t
 | `-w` | `--website` | No | Generate HTML output (default) |
 | `-wl` | `--website-location` | No | Output path for website (default: /tmp/index.html) |
 | `-m` | `--max-videos` | No | Maximum videos per channel (default: 5) |
+| `-r` | `--refresh` | No | Force refresh (ignore cache) |
+| `--cache-location` | | No | Custom cache file path |
+| `--cache-ttl` | | No | Cache lifetime in minutes (default: 30) |
+| `--clear-cache` | | No | Delete cache and exit |
 | `-t` | `--terminal` | No | Output to terminal instead of website |
 | `-h` | `--help` | No | Show help message |
 
@@ -64,6 +69,16 @@ java -jar YouTubeSpy.jar -k YOUR_API_KEY -f channelids.txt -t
 Search with custom output location:
 ```bash
 java -jar YouTubeSpy.jar -k YOUR_API_KEY -c CHANNEL_ID -w -wl /path/to/output.html
+```
+
+Force refresh (ignore cache):
+```bash
+java -jar YouTubeSpy.jar -k YOUR_API_KEY -c CHANNEL_ID -r
+```
+
+Clear cache:
+```bash
+java -jar YouTubeSpy.jar --clear-cache -k YOUR_API_KEY
 ```
 
 ## Getting a Google API Key

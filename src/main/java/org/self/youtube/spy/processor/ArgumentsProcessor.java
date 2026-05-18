@@ -75,7 +75,39 @@ public interface ArgumentsProcessor {
                 true,
                 "Maximum number of videos to fetch per channel (default: 5)",
                 "",
-                Config.Configuration.MAX_VIDEOS.name());
+                Config.Configuration.MAX_VIDEOS.name()),
+        REFRESH (
+                "r",
+                "refresh",
+                false,
+                false,
+                "Force refresh (ignore cache)",
+                "",
+                Config.Configuration.REFRESH.name()),
+        CACHE_LOCATION (
+                "cl",
+                "cache-location",
+                false,
+                true,
+                "Custom cache file path",
+                "",
+                Config.Configuration.CACHE_LOCATION.name()),
+        CACHE_TTL (
+                "ct",
+                "cache-ttl",
+                false,
+                true,
+                "Cache lifetime in minutes (default: 30)",
+                "",
+                Config.Configuration.CACHE_TTL.name()),
+        CLEAR_CACHE (
+                "cc",
+                "clear-cache",
+                false,
+                false,
+                "Delete cache and exit",
+                "",
+                Config.Configuration.CLEAR_CACHE.name());
 
         private final String shortName;
         private final String longName;

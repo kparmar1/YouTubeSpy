@@ -11,7 +11,11 @@ public class Config {
         WEBSITE ("website"),
         TERMINAL ("terminal"),
         WEBSITE_LOCATION ("website-location"),
-        MAX_VIDEOS ("max-videos");
+        MAX_VIDEOS ("max-videos"),
+        REFRESH ("refresh"),
+        CACHE_LOCATION ("cache-location"),
+        CACHE_TTL ("cache-ttl"),
+        CLEAR_CACHE ("clear-cache");
 
         final String name;
         Configuration(String name) {
