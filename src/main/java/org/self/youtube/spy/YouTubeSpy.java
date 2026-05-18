@@ -25,6 +25,7 @@ public class YouTubeSpy {
     private static final String VELOCITY_TEMPLATE = "templates/index.vm";
 
     private static final String DEFAULT_WEBSITE_OUTPUT = System.getProperty("user.home") + "/.youtubespy/index.html";
+    private static final long DEFAULT_MAX_VIDEOS = 5;
     private static Config config;
 
     private YouTubeService youTubeService;
@@ -102,7 +103,7 @@ public class YouTubeSpy {
         if (config.hasConfigurationValue(Config.Configuration.MAX_VIDEOS)) {
             return Long.parseLong(config.getConfiguration(Config.Configuration.MAX_VIDEOS));
         }
-        return 5;
+        return DEFAULT_MAX_VIDEOS;
     }
 
     private boolean shouldRefresh() {
