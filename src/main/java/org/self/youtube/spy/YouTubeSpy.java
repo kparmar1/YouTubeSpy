@@ -26,6 +26,7 @@ public class YouTubeSpy {
 
     private static final String DEFAULT_WEBSITE_OUTPUT = System.getProperty("user.home") + "/.youtubespy/index.html";
     private static final long DEFAULT_MAX_VIDEOS = 5;
+    private static final long DEFAULT_CACHE_TTL = 30;
     private static Config config;
 
     private YouTubeService youTubeService;
@@ -62,7 +63,7 @@ public class YouTubeSpy {
 
     private Cache createCache() {
         String cacheLocation = null;
-        long ttlMinutes = 30;
+        long ttlMinutes = DEFAULT_CACHE_TTL;
 
         if (config.hasConfigurationValue(Config.Configuration.CACHE_LOCATION)) {
             cacheLocation = config.getConfiguration(Config.Configuration.CACHE_LOCATION);
